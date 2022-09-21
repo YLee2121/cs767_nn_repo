@@ -89,8 +89,7 @@ class helper_for_assign_1:
         
         foo1 = helper_for_assign_1.kl_divergence(f1, f2)
         foo2 = helper_for_assign_1.kl_divergence(f2, f1)
-        js = (foo1 + foo2) / 2 
-        return js  
+        return (foo1 + foo2) / 2  
 
 
 class Gaussian:
@@ -104,11 +103,10 @@ class Gaussian:
     def pdf(self, datum):
         "Probability of a data point given the current parameters"
         u = (datum - self.mu) / abs(self.sigma)
-        y = (1 / (sqrt(2 * pi) * abs(self.sigma))) * exp(-u * u / 2)
-        return y
+        return (1 / (sqrt(2 * pi) * abs(self.sigma))) * exp(-u * u / 2)
     
     def __repr__(self):
-        return 'Gaussian({}, {})'.format(self.mu, self.sigma)
+        return f'Gaussian({self.mu}, {self.sigma})'
 
 class GMM_for_3_cluster:
     "GMM for three clusters"
@@ -195,7 +193,7 @@ class GMM_for_3_cluster:
         return p1 + p2 + p3 
     
     def __repr__(self):
-        return 'GMM({}, {}, {}, {}, {}, {})'.format(self.g1, self.g2, self.g3, self.m1, self.m2, self.m3)
+        return f'GMM({self.g1}, {self.g2}, {self.g3}, {self.m1}, {self.m2}, {self.m3})'
     
     def __str__(self) -> str: 
-        return 'Mixture: {}, {}, {}, {}, {}, {}'.format(self.g1, self.g2, self.g3, self.m1, self.m2, self.m3)
+        return f'Mixture: {self.g1}, {self.g2}, {self.g3}, {self.m1}, {self.m2}, {self.m3}'
