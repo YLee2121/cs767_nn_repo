@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "C:/Users/Lee/anaconda3/Lib",
+        "./assignment/assignment_2/src"
+    ]
+}
