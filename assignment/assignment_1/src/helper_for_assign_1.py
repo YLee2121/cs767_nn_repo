@@ -10,7 +10,7 @@ class helper_for_assign_1:
 
     @staticmethod
     def gmm_train(data, n_iter, verbose=False):
-        best_gmm = None 
+        best_gmm = None
         best_loglike = float("-inf")
         gmm = GMM_for_3_cluster(data)
         for _ in range(n_iter):
@@ -23,8 +23,6 @@ class helper_for_assign_1:
 
             except (ZeroDivisionError, ValueError, RuntimeWarning): # Catch division errors from bad starts, and just throw them out...
                 print("one less")
-                pass
-        
         return best_gmm, gmm
 
     @staticmethod
