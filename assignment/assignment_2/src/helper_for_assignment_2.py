@@ -5,6 +5,16 @@ import random
 import scipy
 from sklearn.metrics import * 
 from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import Ridge 
+from sklearn.linear_model import Lasso
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import Lasso, LassoCV
+from sklearn.linear_model import Ridge
+import time 
+from sklearn.preprocessing import PolynomialFeatures
+import warnings
+warnings.filterwarnings('ignore')
+from sklearn.metrics import r2_score
 
 def modal_gaussian_sampling(mu:list, sd:list, size:int):
 
