@@ -4,6 +4,7 @@ from sklearn.linear_model import LinearRegression
 import random
 import scipy
 from sklearn.metrics import * 
+from sklearn.preprocessing import PolynomialFeatures
 
 def modal_gaussian_sampling(mu:list, sd:list, size:int):
 
@@ -93,7 +94,7 @@ class Pwr_linear:
     def train_iter(self, n:int):
         for _ in range(n):
             self.train()
-        return self.best_knot, self.lowest_mse
+        
 
     def plot_knot_spine(self, knot:list):
         plt.scatter(self.x, self.y, alpha=0.3)
@@ -157,21 +158,45 @@ class Pwr_poly(Pwr_linear):
         self.train_y = [ [] for _ in range(n_knots + 1)]
         self.lowest_mse = float("inf")
         self.best_knot = [] 
+        
     def best_prediction(self):
     
         self.knot = self.best_knot
         self.cut_data()
         yhat = [] 
         for tx, ty in zip(self.train_x, self.train_y):
+            tx = np.array(tx).reshape((-1, 1))
+            tx = PolynomialFeatures(self.degree).fit_transform(tx)
 
-            model = np.poly1d( np.polyfit(tx, ty, deg=self.degree))
-            foo = model(tx)
-            foo.reshape((1, -4))
-            yhat += foo.tolist()
+            model = LinearRegression()
+            model.fit(tx, ty)
+            foo = model.predict(tx)
+            foo = foo.reshape((1, -1))
+            yhat += list(foo[0])
+
+            
         
         return yhat , mean_squared_error(yhat, self.y)
 
+    def train(self):
+    
+        self.random_knot_idx()
+        self.cut_data()
 
+        mse = 0
+
+        for tx, ty in zip(self.train_x, self.train_y):
+            tx = np.array(tx).reshape((-1, 1))
+            tx = PolynomialFeatures(self.degree).fit_transform(tx)
+
+            model = LinearRegression()
+            model.fit(tx, ty)
+            yh = model.predict(tx) 
+            mse += mean_squared_error(yh, ty)
+
+        if mse < self.lowest_mse:
+            self.lowest_mse = mse 
+            self.best_knot = self.knot
         
     def train(self):
 
