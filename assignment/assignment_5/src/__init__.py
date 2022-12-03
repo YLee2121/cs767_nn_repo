@@ -27,12 +27,18 @@ def label_shrink(input_label, pre_map = {}):
 
 
 def into_three_ch(data, size):
+    def scale(im, nR, nC):
+        nR0 = len(im)     # source number of rows 
+        nC0 = len(im[0])  # source number of columns 
+        return np.asarray([[ im[int(nR0 * r / nR)][int(nC0 * c / nC)]  
+             for c in range(nC)] for r in range(nR)])
+
     res = []
     for img_array in data:
-        tensor = tf.convert_to_tensor(img_array)
-        tensor = tf.image.resize(tensor, size)
-        tensor = tf.image.grayscale_to_rgb(tensor)
-        res.append(tensor)
+        img_array = scale(img_array, 75, 75)
+        matrix = img_array[:, :, 0]
+        tmp = np.stack((matrix, matrix, matrix), axis=2)
+        res.append(tmp)
     return np.asarray(res)
 
 
@@ -52,6 +58,7 @@ def plot_history(history):
     print(history.history['val_categorical_accuracy'][-1])
 
     plt.show()
+
 
 def plot_history_rnn(history):
     acc = history.history['mean_squared_error']
