@@ -1,4 +1,4 @@
-# Assignment Repo for Neural Network & Deep Learning Course
+# Repo for Neural Network & Deep Learning Course
 
 - Advanced Statistical Techniques
 - GMM Algorithm
